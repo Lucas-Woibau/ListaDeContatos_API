@@ -108,33 +108,4 @@ app.delete('/usuarios/:id', async (req, res) => {
     }
 });
 
-//Enviar e-mail
-app.post('/usuarios/enviar-email', async (req, res) => {
-    const {to, subject, text} = req.body;
-
-    if(!to || !subject  || !text){
-        return res.status(400).json({error: "Campos obrigatórios: to, subject, text"});
-    }
-    const message = {
-        to: to,
-        from: 'devemailthe@gmail.com',
-        subject: subject,
-        text: text,
-    };
-
-    sgMail
-        .send(message)
-        .then((response) => console.log('E-mail enviado..'))
-        .catch((error) => console.log(error.message));
-    
-        try {
-            await sgMail.send(message);
-            res.status(200).json("Email enviado!");
-        } catch (error) {
-            console.error('Erro ao enviar e-mail:', error);
-            res.status(500).json({ error: 'Erro ao enviar o e-mail' });
-        }
-
-});
-
 app.listen(3000);
