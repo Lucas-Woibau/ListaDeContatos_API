@@ -7,7 +7,6 @@ import dotenv from 'dotenv';
 const prisma = new PrismaClient();
 const app = express();
 const API_KEY = process.env.SENDGRID_API_KEY;
-const PORT = process.env.PORT || 3000;
 
 sgMail.setApiKey(API_KEY);
 dotenv.config();
@@ -138,4 +137,4 @@ app.post('/usuarios/enviar-email', async (req, res) => {
 
 });
 
-app.listen(PORT);
+app.listen(3000);
