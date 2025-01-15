@@ -2,13 +2,14 @@ import express, { response, text } from 'express';
 import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
 import sgMail from '@sendgrid/mail';
-require('dotenv').config();
+import dotenv from 'dotenv';
 
 const prisma = new PrismaClient();
 const app = express();
 const API_KEY = process.env.SENDGRID_API_KEY;
 
 sgMail.setApiKey(API_KEY);
+dotenv.config();
 app.use(cors());
 app.use(express.json());
 
