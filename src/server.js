@@ -13,7 +13,6 @@ dotenv.config();
 app.use(cors());
 app.use(express.json());
 
-//Criar usuário
 app.post('/usuarios', async (req, res) => {
     const { nome, telefone, email } = req.body;
 
@@ -36,14 +35,16 @@ app.post('/usuarios', async (req, res) => {
         sgMail
             .send(message)
             .then((response) => console.log('E-mail enviado..'))
-            .catch((error) => console.log(error.message));
+            .catch((error) => {
+                console.error('Erro ao enviar e-mail:', error.message);
+                return res.status(500).json({ error: "Erro ao enviar e-mail." });
+            });
     } catch (error) {
         console.error('Erro ao criar usuário:', error);
         res.status(500).json({ error: "Erro ao criar usuário" });
     }
 });
 
-//Obter usuários
 app.get('/usuarios', async (req, res) => {
     try {
         const users = await prisma.user.findMany();
@@ -53,7 +54,6 @@ app.get('/usuarios', async (req, res) => {
     }
 });
 
-//Obter usuário por ID
 app.get('/usuarios/:id', async (req, res) => {
     const id = req.params.id;
 
@@ -72,7 +72,6 @@ app.get('/usuarios/:id', async (req, res) => {
     }
 });
 
-//Editar usuário
 app.put('/usuarios/:id', async (req, res) => {
     const { nome, telefone, email } = req.body;
     const id = req.params.id;
@@ -93,7 +92,6 @@ app.put('/usuarios/:id', async (req, res) => {
     }
 });
 
-//Deletar usuário
 app.delete('/usuarios/:id', async (req, res) => {
     const id = req.params.id;
 
